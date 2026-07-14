@@ -1,0 +1,20 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend
+      - frontend
+
+  backend:
+    build: ./backend
+    env_file:
+      - .env
+    restart: always
+
+  frontend:
+    build: ./frontend
+    restart: always
