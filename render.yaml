@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: bika-marketplace-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  - type: web
+    name: bika-marketplace-app
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start

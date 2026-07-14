@@ -1,14 +1,36 @@
 services:
+  mongodb:
+    image: mongo:7
+    container_name: bika-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: bika_bot
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
   backend:
     build: ./backend
+    container_name: bika-backend
+    restart: unless-stopped
     env_file:
       - .env
+    depends_on:
+      - mongodb
     ports:
-      - '8000:8000'
+      - "8000:8000"
 
   frontend:
     build: ./frontend
+    container_name: bika-frontend
+    restart: unless-stopped
     env_file:
       - .env
+    depends_on:
+      - backend
     ports:
-      - '3000:3000'
+      - "3000:3000"
+
+volumes:
+  mongo_data:
