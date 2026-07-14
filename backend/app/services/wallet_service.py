@@ -1,21 +1,30 @@
-from datetime import datetime
-from app.database.mongodb import db
+from app.repositories.wallet_repository import wallet_repository
+
+
+class WalletService:
+    async def get_wallet(self, user_id: str):
+        transactions = await wallet_repository.get_transactions(user_id)
+        balance = 0
+
+        for tx in reversed(transactions):
+            tx_type = tx.get('type') or tx.get('action')
+            amount = tx.get('amount', 0)
+
+            if tx_type in ['credit', 'reward', 'deposit']:
+                balance += amount
+            elif tx_type in ['debit', 'purchase', 'withdraw']:
+                balance -= amount
+
+        return {
+            'user_id': user_id,
+            'coin': 'BKC',
+            'balance': balance,
+            'transactions': transactions
+        }
+
+
+wallet_service = WalletService()
 
 
 async def get_wallet(user_id: str):
-    wallet = await db.wallet_transactions.find_one({'user_id': user_id})
-    return wallet or {
-        'user_id': user_id,
-        'balance': 0,
-        'coin': 'BKC'
-    }
-
-
-async def add_transaction(user_id: str, amount: float, action: str):
-    return await db.wallet_transactions.insert_one({
-        'user_id': user_id,
-        'amount': amount,
-        'action': action,
-        'coin': 'BKC',
-        'created_at': datetime.utcnow()
-    })
+    return await wallet_service.get_wallet(user_id)
