@@ -16,6 +16,15 @@ app.add_middleware(
 app.include_router(api_router)
 
 
+@app.on_event('startup')
+async def startup():
+    try:
+        from app.database.indexes import create_indexes
+        await create_indexes()
+    except Exception:
+        pass
+
+
 @app.get('/health')
 async def health():
     return {
