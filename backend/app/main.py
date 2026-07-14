@@ -21,8 +21,8 @@ async def startup():
     try:
         from app.database.indexes import create_indexes
         await create_indexes()
-    except Exception:
-        pass
+    except Exception as exc:
+        print(f"Database initialization warning: {exc}")
 
 
 @app.get('/health')
