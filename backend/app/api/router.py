@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api import marketplace, wallet, orders, search, health, characters, purchase
+from app.api import marketplace, wallet, orders, search, health, characters, purchase, telegram
 
 api_router = APIRouter()
 
@@ -11,3 +11,4 @@ api_router.include_router(search.router)
 api_router.include_router(health.router)
 api_router.include_router(characters.router)
 api_router.include_router(purchase.router)
+api_router.include_router(telegram.router)
