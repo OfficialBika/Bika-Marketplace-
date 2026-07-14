@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+pymongo
+motor
+python-dotenv
+pyjwt
+pydantic
+python-multipart
+httpx
+pytest
