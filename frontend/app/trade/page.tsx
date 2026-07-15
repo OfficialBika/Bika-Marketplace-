@@ -1,1 +1,1 @@
-dydfugig
+export default function Page(){return <main className="home"><h1>Trade Center</h1><p>Bika Marketplace trading module</p></main>}
