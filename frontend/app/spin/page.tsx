@@ -1,1 +1,1 @@
-
+export default function Page(){return <main className="home"><h1>Spin Reward</h1><p>Bika Marketplace feature module</p></main>}
