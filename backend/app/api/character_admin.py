@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-router = APIRouter(prefix="/admin/characters", tags=["Character Admin"])
+router = APIRouter(prefix="/admin/characters", tags=["Admin Characters"])
 
 @router.post("/")
 async def create_character(data: dict):

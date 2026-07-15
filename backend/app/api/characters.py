@@ -29,3 +29,21 @@ async def inventory(user_id: str):
         'success': True,
         'characters': items
     }
+
+
+@router.get('/featured')
+async def featured():
+    import os
+    rarity = os.getenv('SHOW_RARITY', 'Supreme')
+    limit = int(os.getenv('FEATURED_LIMIT', '8'))
+
+    items = await character_service.get_featured_characters(
+        rarity=rarity,
+        limit=limit
+    )
+
+    return {
+        'success': True,
+        'rarity': rarity,
+        'characters': items
+    }

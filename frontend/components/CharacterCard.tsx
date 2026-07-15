@@ -9,11 +9,12 @@ type Props = {
 
 export default function CharacterCard({character}: Props){
   return (
-    <article className="character-card rounded-2xl border p-4">
-      {character.image && <img src={character.image} alt={character.name || 'Character'} />}
+    <article className="nft">
+      <img src={character.image || "/placeholder.png"} alt={character.name || "Character"} />
       <h3>{character.name}</h3>
-      <p>{character.rarity}</p>
-      <span>{character.price || 0} BKC</span>
+      <p>{character.rarity || "Supreme"}</p>
+      <b>{character.price || 0} BKC</b>
+      <button>VIEW</button>
     </article>
   );
 }

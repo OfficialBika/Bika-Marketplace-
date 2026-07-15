@@ -1,18 +1,12 @@
-from app.core.errors import TransactionError
+from datetime import datetime
 from app.database.mongodb import db
 
-async def transfer_ownership(character_id: str, from_user: str, to_user: str):
-    if from_user == to_user:
-        raise TransactionError('Cannot transfer to same owner')
-
-    await db.characters.update_one(
-        {"_id": character_id, "owner_id": from_user},
-        {"$set": {"owner_id": to_user}}
+async def transfer_character(owner_id:str, new_owner_id:str, character_id:str):
+    result = await db.characters.update_one(
+        {"_id": character_id, "owner_id": owner_id},
+        {"$set":{
+            "owner_id": new_owner_id,
+            "updated_at": datetime.utcnow()
+        }}
     )
-
-    return {
-        'character_id': character_id,
-        'from': from_user,
-        'to': to_user,
-        'status': 'completed'
-    }
+    return {"success": result.modified_count > 0}

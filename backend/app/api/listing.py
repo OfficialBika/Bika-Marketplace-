@@ -1,17 +1,11 @@
 from fastapi import APIRouter
 
-router = APIRouter(prefix="/listing", tags=["Listing"])
+router = APIRouter(prefix="/marketplace", tags=["Marketplace"])
 
-@router.get("/")
-async def listings():
-    return {
-        "success": True,
-        "items": []
-    }
-
-@router.post("/")
+@router.post("/listing")
 async def create_listing(data: dict):
-    return {
-        "success": True,
-        "listing": data
-    }
+    return {"success": True, "listing": data}
+
+@router.get("/listings")
+async def get_listings():
+    return {"success": True, "listings": []}

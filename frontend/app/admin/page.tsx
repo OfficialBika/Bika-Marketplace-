@@ -1,3 +1,8 @@
-export default function Page(){
- return <main className="home"><h1>Admin Dashboard</h1><p>Bika Marketplace management</p></main>
+export default function Admin(){
+ return (
+  <main className="home">
+   <h1>BIKA Admin Panel</h1>
+   <p>Manage characters, users, listings and orders.</p>
+  </main>
+ )
 }

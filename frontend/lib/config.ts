@@ -1,6 +1,4 @@
 export const appConfig = {
-  appName: process.env.NEXT_PUBLIC_APP_NAME || 'Bika Marketplace',
-  nftName: process.env.NEXT_PUBLIC_NFT_NAME || 'Bika Characters',
-  coinName: process.env.NEXT_PUBLIC_COIN_NAME || 'BKC',
-  theme: process.env.NEXT_PUBLIC_THEME || 'neon',
+  rarity: process.env.NEXT_PUBLIC_SHOW_RARITY || "Supreme",
+  rotation: Number(process.env.NEXT_PUBLIC_CHARACTER_ROTATION || 5000)
 };

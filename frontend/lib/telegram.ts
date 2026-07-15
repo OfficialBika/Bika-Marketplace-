@@ -1,17 +1,14 @@
-export function initTelegram() {
-  if (typeof window === 'undefined') return null
-
-  const telegram = (window as any).Telegram?.WebApp
-
-  if (!telegram) return null
-
-  telegram.ready()
-  telegram.expand()
-
-  return telegram
+export function getTelegramUser(){
+  if(typeof window === "undefined") return null;
+  const tg = (window as any).Telegram?.WebApp;
+  return tg?.initDataUnsafe?.user || null;
 }
 
-export function getTelegramInitData() {
-  const app = initTelegram()
-  return app?.initData || ''
+export function initTelegram(){
+  if(typeof window === "undefined") return;
+  const tg = (window as any).Telegram?.WebApp;
+  if(tg){
+    tg.ready();
+    tg.expand();
+  }
 }

@@ -1,19 +1,17 @@
-from app.models.user import User
+from datetime import datetime
 from app.database.mongodb import db
 
+async def create_or_update_user(data: dict):
+    user = {
+        "telegram_id": str(data.get("id")),
+        "username": data.get("username"),
+        "updated_at": datetime.utcnow()
+    }
 
-async def get_user(user_id: str):
-    user = await db.users.find_one({"id": user_id})
-    return user or User(id=user_id)
-
-
-async def update_user(user_id: str, data: dict):
     await db.users.update_one(
-        {"id": user_id},
-        {"$set": data},
+        {"telegram_id": user["telegram_id"]},
+        {"$set": user},
         upsert=True
     )
-    return {
-        'user_id': user_id,
-        'updated': data
-    }
+
+    return user

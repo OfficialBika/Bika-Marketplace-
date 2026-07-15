@@ -7,9 +7,6 @@ async def stats():
     return {
         "users": 0,
         "characters": 0,
-        "trades": 0
+        "orders": 0,
+        "auctions": 0
     }
-
-@router.get("/health")
-async def health():
-    return {"status":"admin_api_ok"}
