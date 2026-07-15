@@ -1,9 +1,7 @@
 "use client";
 
 import {useEffect,useState} from "react";
-import {getCharacters,purchaseCharacter} from "@/lib/api";
-
-type Character={id?:string;name:string;rarity:string;price:number};
+import {getCharacters,purchaseCharacter,type Character} from "@/lib/api";
 
 const fallback:Character[]=[
  {id:"supreme-cell",name:"Supreme Cell",rarity:"Legendary",price:500},
@@ -13,32 +11,39 @@ const fallback:Character[]=[
 export default function Page(){
  const [items,setItems]=useState<Character[]>(fallback);
  const [loading,setLoading]=useState(true);
+ const [message,setMessage]=useState("");
 
  useEffect(()=>{
   getCharacters()
    .then(data=>{
-    if(data?.characters?.length) setItems(data.characters);
+    if(data.characters?.length) setItems(data.characters);
    })
-   .catch(()=>{})
+   .catch(()=>setMessage("Unable to load characters"))
    .finally(()=>setLoading(false));
  },[]);
 
  async function buy(id:string){
-  await purchaseCharacter(id);
-  alert("Purchase request sent");
+  try{
+   setMessage("Processing purchase...");
+   await purchaseCharacter(id);
+   setMessage("Purchase request sent");
+  }catch{
+   setMessage("Purchase failed");
+  }
  }
 
  return (
   <main className="market-page">
    <h1>🔥 NFT Marketplace</h1>
    {loading && <p>Loading characters...</p>}
+   {message && <p>{message}</p>}
    <div className="nft-grid">
     {items.map(i=>(
-     <article className="nft" key={i.name}>
+     <article className="nft" key={i.id || i.name}>
       <div className="image">SUPREME</div>
       <h2>{i.name}</h2>
       <p>{i.rarity}</p>
-      <b>{i.price} BKC</b>
+      <b>{i.price || 0} BKC</b>
       <button onClick={()=>buy(i.id || i.name)}>BUY NOW</button>
      </article>
     ))}
