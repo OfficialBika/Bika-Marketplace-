@@ -6,3 +6,6 @@ export const coinDisplayName =
 
 export const brandDisplayName =
   process.env.NEXT_PUBLIC_BRAND_NAME?.trim() || 'BIKA';
+
+export const marketplaceName =
+  process.env.NEXT_PUBLIC_MARKETPLACE_NAME?.trim() || 'Bika Marketplace';
