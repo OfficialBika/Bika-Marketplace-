@@ -3,9 +3,22 @@ services:
     name: bika-marketplace-api
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
+    healthCheckPath: /health
     envVars:
       - key: PORT
         value: 8000
+      - key: BOT_MODE
+        value: webhook
+      - key: TELEGRAM_WEBHOOK_PATH
+        value: /telegram/webhook
+      - key: TELEGRAM_WEBHOOK_SECRET
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: WEB_APP_URL
+        sync: false
+      - key: RENDER_API_URL
+        sync: false
 
   - type: web
     name: bika-marketplace-app
