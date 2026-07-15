@@ -1,20 +1,21 @@
 "use client";
 
 import {useEffect,useState} from "react";
-import {getWallet} from "@/lib/api";
+import {getWallet,type Transaction} from "@/lib/api";
 
 export default function Page(){
  const [balance,setBalance]=useState("68.02");
  const [connected,setConnected]=useState(false);
- const [transactions,setTransactions]=useState<any[]>([]);
+ const [transactions,setTransactions]=useState<Transaction[]>([]);
+ const [message,setMessage]=useState("");
 
  useEffect(()=>{
   getWallet()
    .then(data=>{
-    if(data?.balance) setBalance(String(data.balance));
-    if(data?.transactions) setTransactions(data.transactions);
+    if(data.balance !== undefined) setBalance(String(data.balance));
+    if(data.transactions) setTransactions(data.transactions);
    })
-   .catch(()=>{});
+   .catch(()=>setMessage("Unable to load wallet data"));
  },[]);
 
  return (
@@ -29,11 +30,13 @@ export default function Page(){
      </button>
     </div>
 
+    {message && <p>{message}</p>}
+
     <h2>Transaction History</h2>
     {transactions.length===0 ? (
       <p>No transactions yet</p>
     ) : transactions.map((tx,i)=>(
-      <article className="nft" key={i}>
+      <article className="nft" key={tx.id || i}>
        <p>{tx.type || "Marketplace"}</p>
        <b>{tx.amount || 0} BKC</b>
       </article>
