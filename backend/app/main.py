@@ -1,38 +1,17 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+from app.middleware.cors import setup_cors
 
-from app.api.router import api_router
+load_dotenv()
 
-app = FastAPI(title='Bika Marketplace API')
+app = FastAPI(title="Bika Marketplace API")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=['*'],
-    allow_credentials=True,
-    allow_methods=['*'],
-    allow_headers=['*'],
-)
+setup_cors(app)
 
-app.include_router(api_router)
-
-
-@app.on_event('startup')
-async def startup():
-    try:
-        from app.database.indexes import create_indexes
-        await create_indexes()
-    except Exception as exc:
-        print(f"Database initialization warning: {exc}")
-
-
-@app.get('/health')
-async def health():
-    return {
-        'status': 'ok',
-        'service': 'bika-marketplace'
-    }
-
-
-@app.get('/')
+@app.get("/")
 async def root():
-    return {'name': 'Bika Marketplace', 'coin': 'BKC', 'status': 'running'}
+    return {"name":"Bika Marketplace","status":"running"}
+
+@app.get("/health")
+async def health():
+    return {"status":"ok"}
