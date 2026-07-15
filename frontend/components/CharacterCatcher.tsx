@@ -1,6 +1,7 @@
 "use client";
 
 import {useEffect,useState} from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 type Character={name:string; image?:string; rarity:string; price?:number; id?:string};
@@ -19,10 +20,7 @@ export default function CharacterCatcher(){
 
  useEffect(()=>{
   const url=process.env.NEXT_PUBLIC_API_URL;
-  if(!url){
-   setLoaded(true);
-   return;
-  }
+  if(!url){setLoaded(true);return;}
 
   fetch(`${url}/characters/featured`)
    .then(r=>r.json())
@@ -37,24 +35,23 @@ export default function CharacterCatcher(){
 
  useEffect(()=>{
   if(items.length < 2) return;
-
   const timer=setInterval(()=>{
    setIndex(i=>(i+1)%items.length);
   },3500);
-
   return()=>clearInterval(timer);
  },[items]);
 
  const c=items[index];
-
- if(!c){
-  return null;
- }
+ if(!c) return null;
 
  return (
   <article className="nft catcher feature-glow">
    <div className="image">
-    {c.image ? <img src={c.image} alt={c.name}/> : <span>{loaded ? c.name : "Loading..."}</span>}
+    {c.image ? (
+     <Image src={c.image} alt={c.name} width={500} height={300}/>
+    ) : (
+     <span>{loaded ? c.name : "Loading..."}</span>
+    )}
    </div>
    <h3>{c.name}</h3>
    <p>{c.rarity}</p>
