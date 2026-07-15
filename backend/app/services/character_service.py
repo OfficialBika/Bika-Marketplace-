@@ -1,25 +1,13 @@
-from app.repositories.character_repository import character_repository
+import os
+from app.database.mongodb import db
 
+async def get_featured_characters(rarity=None, limit=8):
+    rarity = rarity or os.getenv("SHOW_RARITY", "Supreme")
+    limit = int(limit or os.getenv("FEATURED_LIMIT", "8"))
 
-class CharacterService:
-    async def get_character(self, character_id: str):
-        character = await character_repository.get_by_id(character_id)
+    cursor = db.characters.find({
+        "rarity": rarity,
+        "status": "active"
+    }).limit(limit)
 
-        if character:
-            character['_id'] = str(character['_id'])
-
-        return character
-
-    async def get_user_characters(self, user_id: str):
-        return await character_repository.list_by_owner(user_id)
-
-
-character_service = CharacterService()
-
-
-async def get_character(character_id: str):
-    return await character_service.get_character(character_id)
-
-
-async def get_user_characters(user_id: str):
-    return await character_service.get_user_characters(user_id)
+    return await cursor.to_list(length=limit)
