@@ -1,1 +1,13 @@
-export default function Page(){return <main className="home"><h1>Auction Center</h1><p>Bika Marketplace feature module</p></main>}
+"use client";
+
+export default function Page(){
+ return (
+  <main className="market-page">
+   <section className="auction-panel">
+    <h1>🏆 Character Auction</h1>
+    <p>Browse premium character auctions and bidding.</p>
+    <button>View Live Auctions</button>
+   </section>
+  </main>
+ );
+}
