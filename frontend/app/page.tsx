@@ -4,6 +4,8 @@ const menus = [
 
 const nfts = ['Cell','Nahida','Changli','Keqing'];
 
+import CharacterCatcher from '@/components/CharacterCatcher';
+
 export default function Home() {
   return (
     <main className="dashboard">
@@ -31,6 +33,7 @@ export default function Home() {
           {menus.map(x => <button className="card" key={x}>{x}</button>)}
         </div>
 
+        <h2 className="title">Supreme Character Catcher</h2><CharacterCatcher />
         <h2 className="title">Bika Characters</h2>
         <div className="nft-grid">
           {nfts.map(n => <article className="nft" key={n}><div className="image">NFT</div><b>{n}</b><p>Rare Character • Mystical</p><button>BUY NOW</button></article>)}
