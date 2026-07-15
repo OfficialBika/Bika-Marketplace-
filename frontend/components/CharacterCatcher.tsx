@@ -1,4 +1,5 @@
 "use client";
+
 import {useEffect,useState} from "react";
 import Link from "next/link";
 
@@ -14,29 +15,46 @@ const fallback: Character[] = [
 export default function CharacterCatcher(){
  const [items,setItems]=useState<Character[]>(fallback);
  const [index,setIndex]=useState(0);
+ const [loaded,setLoaded]=useState(false);
 
  useEffect(()=>{
-  fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/featured`)
+  const url=process.env.NEXT_PUBLIC_API_URL;
+  if(!url){
+   setLoaded(true);
+   return;
+  }
+
+  fetch(`${url}/characters/featured`)
    .then(r=>r.json())
    .then(d=>{
-    if(d.characters?.length) setItems(d.characters);
+    if(Array.isArray(d?.characters) && d.characters.length){
+     setItems(d.characters);
+    }
    })
-   .catch(()=>{});
+   .catch(()=>{})
+   .finally(()=>setLoaded(true));
  },[]);
 
  useEffect(()=>{
+  if(items.length < 2) return;
+
   const timer=setInterval(()=>{
    setIndex(i=>(i+1)%items.length);
   },3500);
+
   return()=>clearInterval(timer);
  },[items]);
 
  const c=items[index];
 
+ if(!c){
+  return null;
+ }
+
  return (
   <article className="nft catcher feature-glow">
    <div className="image">
-    {c.image ? <img src={c.image} alt={c.name}/> : <span>{c.name}</span>}
+    {c.image ? <img src={c.image} alt={c.name}/> : <span>{loaded ? c.name : "Loading..."}</span>}
    </div>
    <h3>{c.name}</h3>
    <p>{c.rarity}</p>
