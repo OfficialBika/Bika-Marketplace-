@@ -14,6 +14,7 @@ export default function CharacterDetailCard({character}:{character:Character}) {
       <p>Rarity: {character.rarity}</p>
       <p>{character.description || "Bika Supreme Character"}</p>
       <strong>{character.price || 0} BKC</strong>
+      <button>BUY CHARACTER</button>
     </section>
   );
 }
