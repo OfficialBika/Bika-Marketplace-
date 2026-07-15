@@ -18,7 +18,7 @@ export default function CharacterCatcher(){
   return()=>clearInterval(t);
  },[items]);
 
- if(!items.length) return <section className="nft">Loading Supreme Characters...</section>;
+ if(!items.length) return <section className="nft">Loading Featured Characters...</section>;
  const c=items[index];
  return <article className="nft catcher">
    <div className="image">{c.image?<img src={c.image} alt={c.name}/>:c.name}</div>
