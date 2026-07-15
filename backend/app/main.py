@@ -29,6 +29,16 @@ async def startup_event():
         pass
 
 
+@app.on_event("shutdown")
+async def shutdown_event():
+    try:
+        telegram_application = getattr(app.state, "telegram_application", None)
+        if telegram_application:
+            await telegram_application.shutdown()
+    except Exception:
+        pass
+
+
 @app.get("/")
 async def root():
     return {"name": "Bika Marketplace", "status": "running"}
