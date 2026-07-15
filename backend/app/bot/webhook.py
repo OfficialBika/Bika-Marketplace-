@@ -9,6 +9,10 @@ logger = logging.getLogger(__name__)
 
 WEBHOOK_SECRET = os.getenv("TELEGRAM_WEBHOOK_SECRET", "")
 
+# Lightweight in-memory protection for duplicate Telegram deliveries.
+processed_updates = set()
+MAX_CACHE_SIZE = 1000
+
 
 @router.post("/telegram/webhook")
 async def telegram_webhook(request: Request):
@@ -20,7 +24,16 @@ async def telegram_webhook(request: Request):
                 return {"ok": False, "error": "invalid secret"}
 
         payload = await request.json()
-        logger.info("Telegram update received: %s", payload.get("update_id"))
+        update_id = payload.get("update_id")
+        logger.info("Telegram update received: %s", update_id)
+
+        if update_id in processed_updates:
+            return {"ok": True, "duplicate": True}
+
+        if update_id is not None:
+            processed_updates.add(update_id)
+            if len(processed_updates) > MAX_CACHE_SIZE:
+                processed_updates.clear()
 
         application = getattr(request.app.state, "telegram_application", None)
         if application:
