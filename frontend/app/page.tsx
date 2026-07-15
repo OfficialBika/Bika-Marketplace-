@@ -14,7 +14,12 @@ const menus = [
  {name:'Auction',path:'/auction'}
 ];
 
-const nfts=['Cell','Nahida','Changli','Keqing'];
+const nfts=[
+ {id:'supreme-cell',name:'Cell'},
+ {id:'nahida-prime',name:'Nahida'},
+ {id:'changli-flame',name:'Changli'},
+ {id:'keqing-shadow',name:'Keqing'}
+];
 
 export default function Home(){
  return (
@@ -45,11 +50,11 @@ export default function Home(){
     <h2 className="title">Bika Characters</h2>
     <div className="nft-grid">
      {nfts.map(n=>(
-      <article className="nft" key={n}>
+      <article className="nft" key={n.id}>
        <div className="image">NFT</div>
-       <b>{n}</b>
+       <b>{n.name}</b>
        <p>Rare Character • Mystical</p>
-       <Link href={`/purchase?character=${n}`} className="purchase-btn">BUY NOW</Link>
+       <Link href={`/character/${n.id}`} className="purchase-btn">VIEW DETAIL</Link>
       </article>
      ))}
     </div>
