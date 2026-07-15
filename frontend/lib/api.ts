@@ -25,6 +25,10 @@ export function getWallet(){
  return request('/wallet');
 }
 
+export function getTransactions(){
+ return request('/wallet/transactions');
+}
+
 export function getTrades(){
  return request('/trades');
 }
@@ -39,4 +43,8 @@ export function purchaseCharacter(id:string){
   headers:{'Content-Type':'application/json'},
   body:JSON.stringify({character_id:id})
  });
+}
+
+export function checkPurchaseStatus(id:string){
+ return request(`/purchase/${id}/status`);
 }
