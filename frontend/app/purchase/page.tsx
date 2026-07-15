@@ -2,18 +2,26 @@
 
 import {useSearchParams} from "next/navigation";
 import {useState} from "react";
-import {purchaseCharacter} from "@/lib/api";
+import {purchaseCharacter,checkPurchaseStatus} from "@/lib/api";
 
 export default function Page(){
  const params=useSearchParams();
  const character=params.get("character") || "Supreme Character";
  const [status,setStatus]=useState("");
+ const [purchaseId,setPurchaseId]=useState("");
 
  async function buy(){
   try{
    setStatus("Processing purchase...");
-   await purchaseCharacter(character);
-   setStatus("Purchase request completed");
+   const result=await purchaseCharacter(character);
+   const id=result?.id || result?.purchase_id || "";
+   setPurchaseId(id);
+   setStatus("Purchase submitted");
+
+   if(id){
+    const check=await checkPurchaseStatus(id);
+    setStatus(check?.status || "Purchase processing");
+   }
   }catch{
    setStatus("Purchase failed. Try again");
   }
@@ -27,6 +35,7 @@ export default function Page(){
     <p>Complete marketplace purchase with BKC.</p>
     <button onClick={buy}>CONFIRM PURCHASE</button>
     {status && <p>{status}</p>}
+    {purchaseId && <small>Order ID: {purchaseId}</small>}
    </section>
   </main>
  );
