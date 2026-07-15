@@ -1,12 +1,17 @@
+"use client";
+
+import { useState } from "react";
+import CharacterCatcher from '@/components/CharacterCatcher';
+
 const menus = [
   'Rewards','Wallet','Gate','Trade','Cleaning','Purchase','NFT','Auction'
 ];
 
 const nfts = ['Cell','Nahida','Changli','Keqing'];
 
-import CharacterCatcher from '@/components/CharacterCatcher';
-
 export default function Home() {
+  const [active, setActive] = useState('NFT');
+
   return (
     <main className="dashboard">
       <aside className="sidebar">
@@ -14,8 +19,11 @@ export default function Home() {
         <h2>MARKETPLACE</h2>
         <p>Advanced NFT & Characters Hub</p>
         <ul>
-          <li>NFT Marketplace</li><li>Spin Wheel</li><li>Auction System</li>
-          <li>Wallet & Transactions</li><li>Trade System</li>
+          <li>NFT Marketplace</li>
+          <li>Spin Wheel</li>
+          <li>Auction System</li>
+          <li>Wallet & Transactions</li>
+          <li>Trade System</li>
         </ul>
       </aside>
 
@@ -26,17 +34,34 @@ export default function Home() {
         </header>
 
         <div className="level"><span /></div>
-
         <section className="hero">WELCOME<br/><small>GO BIKA MARKETPLACE</small></section>
 
         <div className="menu-grid">
-          {menus.map(x => <button className="card" key={x}>{x}</button>)}
+          {menus.map(x => (
+            <button key={x} className="card" onClick={() => setActive(x)}>
+              {x}
+            </button>
+          ))}
         </div>
 
-        <h2 className="title">Supreme Character Catcher</h2><CharacterCatcher />
+        <section className="active-panel">
+          <h2>{active}</h2>
+          <p>{active} module selected. Marketplace actions are ready for API connection.</p>
+        </section>
+
+        <h2 className="title">Supreme Character Catcher</h2>
+        <CharacterCatcher />
+
         <h2 className="title">Bika Characters</h2>
         <div className="nft-grid">
-          {nfts.map(n => <article className="nft" key={n}><div className="image">NFT</div><b>{n}</b><p>Rare Character • Mystical</p><button>BUY NOW</button></article>)}
+          {nfts.map(n => (
+            <article className="nft" key={n}>
+              <div className="image">NFT</div>
+              <b>{n}</b>
+              <p>Rare Character • Mystical</p>
+              <button onClick={() => setActive(`Purchase ${n}`)}>BUY NOW</button>
+            </article>
+          ))}
         </div>
 
         <div className="panels">
