@@ -1,13 +1,14 @@
 "use client";
 import {useEffect,useState} from "react";
+import Link from "next/link";
 
-type Character={name:string; image?:string; rarity:string; price?:number};
+type Character={name:string; image?:string; rarity:string; price?:number; id?:string};
 
 const fallback: Character[] = [
- {name:"Supreme Cell", rarity:"Legendary • Supreme", price:500},
- {name:"Nahida Prime", rarity:"Mythic • Rare", price:800},
- {name:"Changli Flame", rarity:"Ultra Rare", price:1200},
- {name:"Keqing Shadow", rarity:"Epic • Limited", price:650}
+ {id:"supreme-cell",name:"Supreme Cell", rarity:"Legendary • Supreme", price:500},
+ {id:"nahida-prime",name:"Nahida Prime", rarity:"Mythic • Rare", price:800},
+ {id:"changli-flame",name:"Changli Flame", rarity:"Ultra Rare", price:1200},
+ {id:"keqing-shadow",name:"Keqing Shadow", rarity:"Epic • Limited", price:650}
 ];
 
 export default function CharacterCatcher(){
@@ -40,7 +41,9 @@ export default function CharacterCatcher(){
    <h3>{c.name}</h3>
    <p>{c.rarity}</p>
    <b>{c.price || 0} BKC</b>
-   <button className="purchase-btn">VIEW CHARACTER</button>
+   <Link className="purchase-btn" href={`/character/${c.id || c.name}`}>
+    VIEW CHARACTER
+   </Link>
   </article>
  );
 }
