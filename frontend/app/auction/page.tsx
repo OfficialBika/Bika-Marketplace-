@@ -1,0 +1,1 @@
+export default function Auction(){return <main className="home"><h1>Auction Center</h1><p>Live Bika Character Auctions</p><div className="panels"><article>Legendary NFT<h2>120 BKC</h2><button>BID</button></article><article>Rare NFT<h2>80 BKC</h2><button>BID</button></article><article>Epic NFT<h2>200 BKC</h2><button>BID</button></article></div></main>}
