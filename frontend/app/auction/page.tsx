@@ -1,29 +1,32 @@
 "use client";
 
 import {useEffect,useState} from "react";
-import {getAuctions} from "@/lib/api";
+import {getAuctions,type Auction} from "@/lib/api";
 
 export default function Page(){
- const [auctions,setAuctions]=useState<any[]>([]);
+ const [auctions,setAuctions]=useState<Auction[]>([]);
+ const [message,setMessage]=useState("");
 
  useEffect(()=>{
   getAuctions()
-   .then(data=>setAuctions(data?.auctions || []))
-   .catch(()=>{});
+   .then(data=>setAuctions(data.auctions || []))
+   .catch(()=>setMessage("Unable to load auctions"));
  },[]);
 
  return (
   <main className="market-page">
-   <section className="auction-panel">
+   <section className="auction-panel feature-glow">
     <h1>🏆 Character Auction</h1>
     <p>Browse premium character auctions and bidding.</p>
     <button>View Live Auctions</button>
+
+    {message && <p>{message}</p>}
 
     <div className="nft-grid">
      {auctions.length===0 ? (
       <p>No live auctions</p>
      ) : auctions.map((item,i)=>(
-      <article className="nft" key={i}>
+      <article className="nft" key={item.id || i}>
        <h3>{item.name || "Supreme Character"}</h3>
        <p>{item.bid || 0} BKC</p>
        <button>PLACE BID</button>
