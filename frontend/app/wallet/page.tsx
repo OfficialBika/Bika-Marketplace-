@@ -1,1 +1,1 @@
-export default function Wallet(){return <main className="home"><h1>Wallet</h1><div className="panels"><article>Balance<br/><b>68.02 BKC</b></article><article>Rewards<br/><b>1200 Points</b></article><article>History<br/><p>Transactions ready</p></article></div></main>}
+export default function Page(){return <main className="home"><h1>BKC Wallet</h1><p>Bika Marketplace feature module</p></main>}
