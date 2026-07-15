@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 
 from app.middleware.cors import setup_cors
 from app.bot.webhook import router as telegram_webhook_router
+from app.bot.health import router as telegram_health_router
 from app.bot.register_webhook import register_telegram_webhook
 from app.bot.application import create_telegram_application
 
@@ -13,6 +14,7 @@ app = FastAPI(title="Bika Marketplace API")
 setup_cors(app)
 
 app.include_router(telegram_webhook_router)
+app.include_router(telegram_health_router)
 
 
 @app.on_event("startup")
